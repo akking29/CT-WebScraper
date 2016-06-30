@@ -8,16 +8,22 @@ request(url, function(error, response, body) {
     if (!error) {
         var $ = cheerio.load(body);
 
-       /*	var book = {
-       		title : "",
-       		imageUrl : "",
-       		author : "",
-       		price: ""
-       	};
-			*/
-       	$(".panel").each(function(name) {
-       		var name = $(this).find('panel-heading').text();
-       		console.log(name);
+        var json = [];
+       
+       	$(".panel").each(function() {
+
+       		var title = $(this).children().first().text().trim();
+          var imageUrl = $(this).children().eq(1).children().first().attr('src');
+          var author = $(this).children().eq(1).children().eq(1).text();
+          var price = $(this).children().eq(1).children().last().text();
+       		console.log(title);
+          console.log(imageUrl);
+          console.log(author);
+          console.log(price);
+          
+          var book = {title: title, imageUrl: imageUrl, author: author, price: price};
+          json.push(book);
+         
        	});
        		/*
         var title =[];
@@ -49,10 +55,8 @@ request(url, function(error, response, body) {
     } else {
         console.log("we've encountered an error: " + error);
     }
-    	/*
-    fs.writeFile('books.json', JSON.stringify(book, null, 4), function(error){
+    	
+    fs.writeFile('books.json', JSON.stringify(json, null, 4), function(){
     	console.log('Code Test Complete - Check directory');
-    }) 
-    	console.log('error');
-    	*/
+    })   	
 });
