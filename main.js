@@ -9,26 +9,23 @@ request(url, function(error, response, body) {
         var $ = cheerio.load(body);
 
         var json = [];
-       
-       	$(".panel").each(function() {
 
-       		var title = $(this).children().first().text().trim();
-          var imageUrl = $(this).children().eq(1).children().first().attr('src');
-          var author = $(this).children().eq(1).children().eq(1).text();
-          var price = $(this).children().eq(1).children().last().text();
-       		console.log(title);
-          console.log(imageUrl);
-          console.log(author);
-          console.log(price);
-          
-          var book = {title: title, imageUrl: imageUrl, author: author, price: price};
-          json.push(book);
-         
-       	});
-       		/*
+        $(".panel").each(function() {
+
+            var title = $(this).children().first().text().trim();
+            var imageUrl = $(this).children().eq(1).children().first().attr('src');
+            var author = $(this).children().eq(1).children().eq(1).text();
+            var price = $(this).children().eq(1).children().last().text();
+            console.log(title + " " + imageUrl + " " + author + " " + price);
+
+            var book = { title: title, imageUrl: imageUrl, author: author, price: price };
+            json.push(book);
+
+        });
+        /*
         var title =[];
         $("[class='panel-heading']").each(function(i,elem){
-        	title[i]= $(this).text();
+          title[i]= $(this).text();
         });
         book.title=title;
         
@@ -40,13 +37,13 @@ request(url, function(error, response, body) {
 
         var author = [];
         $("[class='panel-body']").children('p').each(function(i,elem){
-        	author[i]=$(this).text();
+          author[i]=$(this).text();
         });
         book.author = author;
 
         var price = [];
         $("[class='green']").each(function(i, elem){
-        	price[i]=$(this).text();
+          price[i]=$(this).text();
         });
         book.price = price;
 
@@ -55,8 +52,8 @@ request(url, function(error, response, body) {
     } else {
         console.log("we've encountered an error: " + error);
     }
-    	
-    fs.writeFile('books.json', JSON.stringify(json, null, 4), function(){
-    	console.log('Code Test Complete - Check directory');
-    })   	
+
+    fs.writeFile('books.json', JSON.stringify(json, null, 4), function() {
+        console.log('Code Test Complete - Check directory');
+    })
 });
